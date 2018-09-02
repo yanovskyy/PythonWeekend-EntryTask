@@ -16,7 +16,8 @@ class Flight(object):
         self.flight_number = flight_number
 
     def __str__(self):
-        return 'From: %s, To: %s, FlightNumber: %s, Departure: %s, Arrival: %s' % (self.source, self.destination, self.flight_number, self.departure, self.arrival)
+        return 'From: %s, To: %s, FlightNumber: %s, Departure: %s, Arrival: %s' \
+               % (self.source, self.destination, self.flight_number, self.departure, self.arrival)
 
 
 class FlightsCombination(object):
