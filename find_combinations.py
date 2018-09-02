@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 
 
 class Flight(object):
-
     def __init__(self, source, destination, departure, arrival, flight_number,
                  price, bags_allowed, bag_price):
         self.source = source
@@ -31,25 +30,47 @@ class FlightsCombination(object):
         return str_flights_combination
 
     def get_route(self):
+        """
+        :return: Route as string
+        """
         route = self.flights[0].source
         for stop in flights_combination.flights:
             route = route + '->' + stop.destination
         return route
 
     def get_zero_bag_price(self):
+        """
+        :return: Intiger, price for flights combination for passenger without bags
+        """
         return sum([int(stop.price) for stop in flights_combination.flights])
 
     def get_one_bag_price(self):
+        """
+        :return: Intiger, price for flights combination for passenger with one bag
+        """
         return self.get_zero_bag_price() + sum([int(stop.bag_price) for stop in flights_combination.flights])
 
 
     def get_two_bags_price(self):
+        """
+        :return: Intiger, price for flights combination for passenger with two bags
+        """
         return self.get_zero_bag_price() + 2*sum([int(stop.bag_price) for stop in flights_combination.flights])
 
     def get_max_bags_allowance(self):
+        """
+        :return: Intiger, maximum number of bags that passenger could take for a flight combination
+        """
         return min([int(stop.bags_allowed) for stop in flights_combination.flights])
 
 def find_combinations(flight, available_flight, flights_combination):
+    """
+    Recursive function that search for flights combinations
+    :param flight: Picked source flight
+    :param available_flight: All available flights
+    :param flights_combination: Flights combinations that has been found so far
+    :return:
+    """
     for fl in [elem for elem in available_flights if elem.source == flight.destination]:
         if fl.source not in [stop.source for stop in flights_combination]:
             min_departure_time = flight.arrival + timedelta(hours=1)
@@ -59,7 +80,11 @@ def find_combinations(flight, available_flight, flights_combination):
                 flights_combination.append(fl)
 
 
-def load_csv(csvfile_location):
+def load_csv():
+    """
+    Function load csv file from stdin
+    :return: List of Flights objects
+    """
     available_flights = []
     stdin_input = sys.stdin.readlines()
     csv_input = csv.DictReader(stdin_input)
@@ -75,7 +100,7 @@ def load_csv(csvfile_location):
 
 
 if __name__ == '__main__':
-    available_flights = load_csv('input.csv')
+    available_flights = load_csv()
     all_combinations = []
     for fl in available_flights:
         flights_combination = FlightsCombination([fl])
