@@ -88,6 +88,9 @@ def load_csv():
     """
     available_flights = []
     stdin_input = sys.stdin.readlines()
+    if not stdin_input:
+        sys.stderr.write("[Error] No CSV data has been provided!\n")
+        exit(1)
     csv_input = csv.DictReader(stdin_input)
     next(csv_input, None)  # skip the headers
     for row in csv_input:
